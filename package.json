@@ -1,0 +1,22 @@
+{
+  "name": "wc-csr",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "dev": "parcel --log-level verbose",
+    "dev:c": "pnpm clean-cache &pnpm dev",
+    "dev:w": "parcel watch --no-cache --log-level verbose",
+    "build": "parcel build --no-optimize --no-cache --log-level verbose",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean-cache": "rm -rf '.parcel-cache'"
+  },
+  "source": "index.html",
+  "author": "johannesrave",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/config-default": "^2.7.0",
+    "@parcel/core": "^2.7.0",
+    "parcel": "^2.7.0",
+    "typescript": "^4.8.3"
+  }
+}

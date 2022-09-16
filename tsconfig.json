@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "es2022",
+    "target": "es2015",
+    "lib": ["es2020", "dom", "dom.iterable"],
+    "sourceMap": true,
+    "removeComments": true,
+    "isolatedModules": true,
+    "downlevelIteration": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
