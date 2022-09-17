@@ -91,6 +91,7 @@ there are different ways to express this configuration:
       <home-page module="./pages/HomePage"></home-page>
   </wc-route>
   ```
+  !! this variant has some fundamental implications in regard to caching, lazy-loading and usage of the shadow dom.
 + global explicit configuration in the router, a place where all pages are imported and defined (on demand?): `<wc-router page-file="pages.ts">`
 + implicit configuration, all pages are imported and defined somewhere else in the app (`app.ts`), and the router basically hopes for the page-elements to be defined when it adds them to the DOM.
 + file based, eg. a `/pages`-directory that is searched by the router: `<wc-router file-based="true">`
