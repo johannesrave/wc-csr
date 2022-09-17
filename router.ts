@@ -7,7 +7,7 @@ class WCRouter extends HTMLElement {
     this.attachShadow({mode: 'open'});
     this.shadowRoot.innerHTML = WCRouter.html
 
-    // whenever a path-string is pushed to history (triggering 'popstate'), we route to that page.
+    // whenever the browser history is used (triggering 'popstate'), we route again.
     window.addEventListener('popstate', this.routePage);
     // whenever am anchor somewhere inside the router-tree is clicked,
     // we capture the click and route on the client.
