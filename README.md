@@ -1,8 +1,8 @@
 # Client-side routing webcomponent exploration
 
-this is an example-implementation of a portable csr-router webcomponent.
+this is an exploration of a portable csr-router webcomponent.
 
-an initial inspirational idea for the component usage:
+an initial inspirational idea for the component usage can best be expressed in code:
 
 ```html
 <wc-router page-file="pages.ts" file-based="false" lazy="false">
@@ -11,25 +11,33 @@ an initial inspirational idea for the component usage:
     <wc-route path="/about"     page="about-page"></wc-route>
 </wc-router>
 ```
+this is not the final API, it is the inspiration and initial idea from which this exploration will expand.
 
-this would be coded into the initial page of the web-app, most likely index.html.
-arguments for that are:
+there are some intuitive conceptual requirements for the resulting component in order of relevance:
+
+- it should meet some expectations towards client side routing, such as a usable browser-history and shareable URLs with little or no in-memory-state.
+- it should be portable in that users should be able to drop it into their markup, define some routes and page-components and then have their client-site routing "just work"
+- it should be explicit in its configuration and API, with little magic going on in the background.
+- it should be sensible about resource-usage, be it processing power, rerendering, initial page load and memory footprint. these goals may and will conflict, so tradeoffs will need to be made.
+
+
+## Where will this be used?
+
+this router-component would most likely be used in the index.html or equivalent entry-point into your site or app.
 
 - as routing is a very basic mechanism that takes over some fundamental functionality of the whole app, 
 integrating, initializing and configuring it at this "root"-level makes conceptual sense.
-- an html file is where a custom element really comes into its own, as it can be used declaratively.
-- index.html is the natural entry point for the whole site, and the router is then the entry point for the web-app -
-plugging content ("pages") into the app here is trivial and natural.
+- an html file is where a using a portable custom element in a declarative fashion is the most natural.
+- index.html is the entry point for the whole site, and the router then is the entry point for the web-app 
+- plugging the actual content ("pages") into the app here is trivial and natural.
 - ...
-
-decisions and thoughts on the choices to be made when implementing this were:
 
 ## API for adding routes and pages to the router
 
 adding one <wc-route>-element per route is a natural fit, as they can be trivially added in the markup and 
 accessed from within the <wc-router>. 
 
-however, a basic decision is how pages are represented. there is a set of options, illustrated in code here:
+however, a basic decision is how pages are represented. there are at least two options, illustrated in code here:
 
 ### 1. Pages as attributes
 
@@ -69,7 +77,9 @@ implications:
 
 ## API for defining page-components
 
-for this there must be a convention on how and where the page-components can be derived from the attribute by the router. this could be:
+for the router to be able to find and plug in the correct page for a url, it needs I think three pieces of information: the path to match, a representation of the page-component/customElement to display and the js-module that defines the behaviour of that component.
+
+there are different ways to express this configuration:
 
 + specific explicit configuration where the pages could have a reference to their defining module per route:
   ```html
@@ -81,7 +91,7 @@ for this there must be a convention on how and where the page-components can be 
       <home-page module="./pages/HomePage"></home-page>
   </wc-route>
   ```
-+ global explicit configuration the router, a place where all pages are imported and defined (on demand?): `<wc-router page-file="pages.ts">`
++ global explicit configuration in the router, a place where all pages are imported and defined (on demand?): `<wc-router page-file="pages.ts">`
 + implicit configuration, all pages are imported and defined somewhere else in the app (`app.ts`), and the router basically hopes for the page-elements to be defined when it adds them to the DOM.
 + file based, eg. a `/pages`-directory that is searched by the router: `<wc-router file-based="true">`
 
