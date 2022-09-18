@@ -11,14 +11,23 @@ an initial inspirational idea for the component usage can best be expressed in c
     <wc-route path="/about"     page="about-page"></wc-route>
 </wc-router>
 ```
-this is not the final API, it is the inspiration and initial idea from which this exploration will expand.
+this is not the final API, but rather the starting point on which this exploration will expand.
 
-there are some intuitive conceptual requirements for the resulting component in order of relevance:
+MUST:
+- capture clicks on anchors, which would ordinarily cause a server-request
+- set the browser-location according to those clicks
+- display page-components based on this location
+- keep the browser-history functional
+- display a fallback if no routes match (client side 404?!)
 
+EVALUATE:
+- should the browser or a related component define custom elements for the pages or is this rather the concern of the app itself?
+
+NON-FUNCTIONAL:
 - it should meet some expectations towards client side routing, such as a usable browser-history and shareable URLs with little or no in-memory-state.
 - it should be portable in that users should be able to drop it into their markup, define some routes and page-components and then have their client-site routing "just work"
 - it should be explicit in its configuration and API, with little magic going on in the background.
-- it should be sensible about resource-usage, be it processing power, rerendering, initial page load and memory footprint. these goals may and will conflict, so tradeoffs will need to be made.
+- it should be sensible about resource-usage, be it processing power, re-rendering, initial page load and memory footprint. these goals may and will conflict, so tradeoffs will need to be made.
 
 
 ## Where will this be used?
@@ -34,8 +43,9 @@ integrating, initializing and configuring it at this "root"-level makes conceptu
 
 ## API for adding routes and pages to the router
 
-adding one <wc-route>-element per route is a natural fit, as they can be trivially added in the markup and 
-accessed from within the <wc-router>. 
+we define the responsibility of the router to be that of setting the browser-location/-url when an anchor is clicked, as well as displaying a certain component based on that location. (a secondary concern is to feed the page-component the query-parameters from the url, if any are present.)
+routes and components, those two pieces of information are needed by the router.
+adding one <wc-route>-element per route is a natural fit, as they can be trivially added in the markup and accessed from within the <wc-router>. 
 
 however, a basic decision is how pages are represented. there are at least two options, illustrated in code here:
 
@@ -71,13 +81,14 @@ implications:
 ```
 
 implications:
-- the element tags are already explicit here.
-
+- if used together with the shadow dom, a page could potentially be displayed simply by giving it a `slot="page"`-attribute.
+- pages could be defined lazily, but would afterwards automatically remain in memory.
+- the element tags are already explicit here and don't have to be derived by convention..
 
 
 ## API for defining page-components
 
-for the router to be able to find and plug in the correct page for a url, it needs I think three pieces of information: the path to match, a representation of the page-component/customElement to display and the js-module that defines the behaviour of that component.
+~~for the router to be able to find and plug in the correct page for a url, it needs I think three pieces of information: the route to match, a representation of the page-component/customElement to display and the js-module that defines the behaviour of that component.~~
 
 there are different ways to express this configuration:
 
@@ -91,7 +102,6 @@ there are different ways to express this configuration:
       <home-page module="./pages/HomePage"></home-page>
   </wc-route>
   ```
-  !! this variant has some fundamental implications in regard to caching, lazy-loading and usage of the shadow dom.
 + global explicit configuration in the router, a place where all pages are imported and defined (on demand?): `<wc-router page-file="pages.ts">`
 + implicit configuration, all pages are imported and defined somewhere else in the app (`app.ts`), and the router basically hopes for the page-elements to be defined when it adds them to the DOM.
 + file based, eg. a `/pages`-directory that is searched by the router: `<wc-router file-based="true">`
