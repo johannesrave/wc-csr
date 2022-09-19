@@ -95,13 +95,10 @@ implications:
 implications:
 
 - if used together with the shadow dom, a route could potentially be displayed simply by giving it a `slot="page"`
-  -attribute. however, `connectedCallback` can't be used to detect when a page is being displayed anymore. detecting the
-  attribute change on the `<wc-route>` becomes a possibility, but this then must be propagated to the page-child
-  somehow.
+  -attribute. however, `connectedCallback` can't be used to detect when a page is being displayed anymore. detecting the attribute change on the `<wc-route>` becomes a possibility, but this then must be propagated to the page-child
+  somehow. also, a ['slotchange'-event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLSlotElement/slotchange_event) exists that is triggered on the slot-element if elements in the slot change.
 - pages could be defined lazily, but would afterwards automatically remain in memory.
-- IF pages are to be defined DYNAMICALLY/lazily/on demand, then the class defining each element must be known to the
-  router, or another defining script must be notified. either way, static knowledge about that interface is needed for
-  the router.
+- IF pages are to be defined DYNAMICALLY/lazily/on demand, then the class defining each element must be known to the router, or another defining script must be notified. either way, static knowledge about that interface is needed for the router.
 - IF pages are to be defined STATICALLY, their customElement definition can live outside the router. in this case,
   element-definition can't be enforced by the router, and also all pages are already defined/upgraded on entering the
   site!
