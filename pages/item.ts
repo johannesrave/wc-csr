@@ -5,7 +5,6 @@ export default class ItemPage extends WCPage {
     this.insertAdjacentHTML('beforeend', `
         <a href="/">home</a>
         <a href="/about">about</a>
-        <a href="/item/1">item 1</a>
     `)
   }
 }

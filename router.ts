@@ -1,11 +1,9 @@
 export {};
 
 class WCRouter extends HTMLElement {
-  static html = `<slot name="page"></slot>`
-
   connectedCallback() {
-    this.attachShadow({mode: 'open'});
-    this.shadowRoot.innerHTML = WCRouter.html
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = '<slot name="page"></slot>';
 
     // whenever the browser history is used (triggering 'popstate'), we route again.
     window.addEventListener('popstate', this.routePage);
@@ -34,30 +32,19 @@ class WCRouter extends HTMLElement {
   }
 
   private async routePage() {
-    // console.log("routing to path " + location.pathname)
-    // console.log("looking for respective page...")
-    const currentPage = this.getCurrentPageElement() ?? this.notFoundPage()
-    // console.log(currentPage)
-    this.shadowRoot.replaceChildren(currentPage);
-    // this.shadowRoot.querySelector('slot[name="page"]').replaceChildren(currentPage);
-  }
+    console.log("routing to path " + location.pathname);
+    [...this.querySelectorAll('wc-route')].forEach(child => {
+      child.removeAttribute('slot');
+    });
 
-  private getCurrentPageElement(): Element {
-    let wcRouteForPath = [...this.querySelectorAll('wc-route')]
+    let wcRoute = [...this.querySelectorAll('wc-route')]
       .find(child => {
         const pathAttr = child.getAttribute('path');
-        // console.log(`child: ${child.tagName} - pathAttr: ${pathAttr}`);
+        console.log(`child: ${child.tagName} - pathAttr: ${pathAttr}`);
         return location.pathname.match(this.regexFromPath(pathAttr));
-      });
+      }) ?? document.createElement('p');
 
-    const pageTag = wcRouteForPath.getAttribute('page');
-    return document.createElement(pageTag);
-  }
-
-  private notFoundPage() {
-    const p = document.createElement('p');
-    p.insertAdjacentHTML('beforeend', "404");
-    return p;
+    wcRoute.setAttribute('slot', 'page')
   }
 
   private regexFromPath(path: string) {

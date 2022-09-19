@@ -9,9 +9,18 @@
 <body>
 <p>content</p>
 <wc-router page-file="pages.ts" file-based="false" lazy="false">
-    <wc-route path="/"          page="home-page"></wc-route>
-    <wc-route path="/item/:id"  page="item-page"></wc-route>
-    <wc-route path="/about"     page="about-page"></wc-route>
+    <wc-route path="/">
+        <home-page></home-page>
+    </wc-route>
+    <wc-route path="/item/:id">
+        <item-page></item-page>
+    </wc-route>
+    <wc-route path="/about">
+        <about-page></about-page>
+    </wc-route>
+    <wc-route path="not_found">
+        <notfound-page></notfound-page>
+    </wc-route>
 </wc-router>
 </body>
 </html>
