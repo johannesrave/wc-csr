@@ -121,7 +121,8 @@ in this variant, the router still creates elements from strings, therefore doesn
 implications:
 - some problems of the simpler variants are solved by this, but it is a lot less clear to read.
 - `connectedCallback` can now be at least used to initialize a page on its first display, but afterwards the page always remains connected.
-- 
+
+
 ### 4. Hybrid variant II
 
 ```html
@@ -135,7 +136,7 @@ implications:
 </wc-router>
 ```
 
-same as variant 3, but the current page isn't displayed by giving it a slot-attribute but it is added to the shadow-root instead, enabling the use of ``
+same as variant 3, but the current page isn't displayed by giving it a slot-attribute, but it is added to the shadow-root instead, enabling the use of ``
 
 
 ## API for defining page-components
@@ -172,5 +173,5 @@ where are the page components being hosted in the document? there are some optio
 
 ## Questions that didn't get their own section yet:
 
-do pages need a wrapping component that provides some functionality?
+do pages need a wrapping component that provides some functionality/interface?
 ideally, page-components don't need to know that they are being hosted by a router. some functionality might however be easier or only be implemented if there is some interface between the router and the pages.
